@@ -11,5 +11,6 @@ defmodule Midterm.Repo.Migrations.CreateAccountWatchedAddresses do
 
     create index(:account_watched_addresses, [:account_id])
     create index(:account_watched_addresses, [:watched_address_id])
+    create unique_index(:accounts_addresses, [:account_id, :address_id])
   end
 end

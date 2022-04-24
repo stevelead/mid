@@ -2,10 +2,17 @@ defmodule Midterm.Accounts.AccountWatchedAddress do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "account_watched_addresses" do
+  alias Midterm.Accounts.Account
+  alias Midterm.Accounts.WatchedAddress
+  alias Midterm.Accounts.NotificationPreference
+  alias Midterm.Notifications.Notification
 
-    field :account_id, :id
-    field :watched_address_id, :id
+  schema "account_watched_addresses" do
+    belongs_to :account, Account
+    belongs_to :watched_address, WatchedAddress
+
+    has_one :notification_preference, NotificationPreference
+    has_many :notifications, Notification
 
     timestamps()
   end
