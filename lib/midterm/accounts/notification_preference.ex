@@ -2,11 +2,14 @@ defmodule Midterm.Accounts.NotificationPreference do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Midterm.Accounts.AccountWatchedAddress
+
   schema "notification_preferences" do
     field :devices_to_notify, {:array, :string}
     field :limit_by_type, Ecto.Enum, values: [:received, :spent, :all]
     field :values_greater_than, :integer
-    field :accounts_watched_address_id, :id
+
+    belongs_to :account_watched_address, AccountWatchedAddress
 
     timestamps()
   end
