@@ -27,7 +27,8 @@ defmodule Midterm.AccountsFixtures do
   @doc """
   Generate a unique watched_address address_hash.
   """
-  def unique_watched_address_address_hash, do: "some address_hash#{System.unique_integer([:positive])}"
+  def unique_watched_address_address_hash,
+    do: "some address_hash#{System.unique_integer([:positive])}"
 
   @doc """
   Generate a watched_address.
@@ -47,11 +48,12 @@ defmodule Midterm.AccountsFixtures do
   Generate a account_watched_address.
   """
   def account_watched_address_fixture(attrs \\ %{}) do
+    account = account_fixture()
+    watched_address = watched_address_fixture()
+
     {:ok, account_watched_address} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{account_id: account.id, watched_address_id: watched_address.id})
       |> Midterm.Accounts.create_account_watched_address()
 
     account_watched_address
