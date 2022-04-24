@@ -163,7 +163,7 @@ defmodule Midterm.AccountsTest do
 
     import Midterm.AccountsFixtures
 
-    @invalid_attrs %{}
+    @invalid_attrs %{account_id: nil}
 
     test "list_account_watched_addresses/0 returns all account_watched_addresses" do
       account_watched_address = account_watched_address_fixture()
@@ -178,7 +178,10 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_account_watched_address/1 with valid data creates a account_watched_address" do
-      valid_attrs = %{}
+      account = account_fixture()
+      watched_address = watched_address_fixture()
+
+      valid_attrs = %{account_id: account.id, watched_address_id: watched_address.id}
 
       assert {:ok, %AccountWatchedAddress{} = _account_watched_address} =
                Accounts.create_account_watched_address(valid_attrs)
