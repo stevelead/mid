@@ -2,11 +2,14 @@ defmodule Midterm.Accounts.ApiAccess do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Midterm.Accounts.Account
+
   schema "api_access" do
     field :api_code, :string
     field :status, Ecto.Enum, values: [:active, :paused, :cancelled]
     field :valid_until, :utc_datetime
-    field :account_id, :id
+
+    belongs_to :account, Account
 
     timestamps()
   end

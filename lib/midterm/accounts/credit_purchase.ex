@@ -2,11 +2,14 @@ defmodule Midterm.Accounts.CreditPurchase do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Midterm.Accounts.Account
+
   schema "credit_purchases" do
     field :credits_purchased, :integer
     field :purchase_cost, :integer
     field :purchase_currency, Ecto.Enum, values: [:ada]
-    field :account_id, :id
+
+    belongs_to :account, Account
 
     timestamps()
   end
