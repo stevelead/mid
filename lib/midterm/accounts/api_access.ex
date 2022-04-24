@@ -14,11 +14,13 @@ defmodule Midterm.Accounts.ApiAccess do
     timestamps()
   end
 
+  @required_parameters [:api_code, :status, :valid_until, :account_id]
+
   @doc false
   def changeset(api_access, attrs) do
     api_access
-    |> cast(attrs, [:api_code, :status, :valid_until])
-    |> validate_required([:api_code, :status, :valid_until])
+    |> cast(attrs, @required_parameters)
+    |> validate_required(@required_parameters)
     |> unique_constraint(:api_code)
   end
 end

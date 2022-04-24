@@ -22,10 +22,13 @@ defmodule Midterm.Accounts.Account do
     timestamps()
   end
 
+  @required_parameters [:address_hash, :status]
+  @available_parameters [:alias, :credits, :email, :sms, :push_over_key | @required_parameters]
+
   @doc false
   def changeset(account, attrs) do
     account
-    |> cast(attrs, [:address_hash, :credits, :alias, :email, :sms, :push_over_key, :status])
-    |> validate_required([:address_hash, :credits, :alias, :email, :sms, :push_over_key, :status])
+    |> cast(attrs, @available_parameters)
+    |> validate_required(@required_parameters)
   end
 end

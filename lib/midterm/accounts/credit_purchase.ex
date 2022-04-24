@@ -14,10 +14,13 @@ defmodule Midterm.Accounts.CreditPurchase do
     timestamps()
   end
 
+  @required_parameters [:credits_purchased, :purchase_cost, :account_id]
+  @available_parameters [:purchase_currency | @required_parameters]
+
   @doc false
   def changeset(credit_purchase, attrs) do
     credit_purchase
-    |> cast(attrs, [:credits_purchased, :purchase_cost, :purchase_currency])
-    |> validate_required([:credits_purchased, :purchase_cost, :purchase_currency])
+    |> cast(attrs, @available_parameters)
+    |> validate_required(@required_parameters)
   end
 end

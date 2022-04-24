@@ -12,10 +12,12 @@ defmodule Midterm.Notifications.NotificationType do
     timestamps()
   end
 
+  @required_parameters [:type]
+
   @doc false
   def changeset(notification_type, attrs) do
     notification_type
-    |> cast(attrs, [:type])
-    |> validate_required([:type])
+    |> cast(attrs, @required_parameters)
+    |> validate_required(@required_parameters)
   end
 end

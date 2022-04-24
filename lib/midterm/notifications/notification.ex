@@ -17,10 +17,18 @@ defmodule Midterm.Notifications.Notification do
     timestamps()
   end
 
+  @required_parameters [
+    :credits_spent,
+    :notification_datails,
+    :notification_type_id,
+    :account_watched_address_id,
+    :block
+  ]
+
   @doc false
   def changeset(notification, attrs) do
     notification
-    |> cast(attrs, [:credits_spent, :notification_datails])
-    |> validate_required([:credits_spent, :notification_datails])
+    |> cast(attrs, @required_parameters)
+    |> validate_required(@required_parameters)
   end
 end

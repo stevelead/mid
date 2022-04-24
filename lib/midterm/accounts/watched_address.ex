@@ -12,11 +12,13 @@ defmodule Midterm.Accounts.WatchedAddress do
     timestamps()
   end
 
+  @required_parameters [:address_hash]
+
   @doc false
   def changeset(watched_address, attrs) do
     watched_address
-    |> cast(attrs, [:address_hash])
-    |> validate_required([:address_hash])
+    |> cast(attrs, @required_parameters)
+    |> validate_required(@required_parameters)
     |> unique_constraint(:address_hash)
   end
 end

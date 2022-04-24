@@ -14,10 +14,17 @@ defmodule Midterm.Accounts.NotificationPreference do
     timestamps()
   end
 
+  @required_parameters [:account_watched_address_id]
+  @available_parameters [
+    :devices_to_notify,
+    :limit_by_type,
+    :values_greater_than | @required_parameters
+  ]
+
   @doc false
   def changeset(notification_preference, attrs) do
     notification_preference
-    |> cast(attrs, [:limit_by_type, :values_greater_than, :devices_to_notify])
-    |> validate_required([:limit_by_type, :values_greater_than, :devices_to_notify])
+    |> cast(attrs, @available_parameters)
+    |> validate_required(@required_parameters)
   end
 end

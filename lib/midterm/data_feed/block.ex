@@ -15,11 +15,14 @@ defmodule Midterm.DataFeed.Block do
     timestamps()
   end
 
+  @required_parameters [:header_hash, :slot, :received_block_id]
+  @available_parameters [:rolled_back | @required_parameters]
+
   @doc false
   def changeset(block, attrs) do
     block
-    |> cast(attrs, [:header_hash, :slot, :rolled_back, :received_block_id])
-    |> validate_required([:header_hash, :slot, :rolled_back, :received_block_id])
+    |> cast(attrs, @available_parameters)
+    |> validate_required(@required_parameters)
     |> unique_constraint(:slot)
     |> unique_constraint(:header_hash)
   end
