@@ -10,9 +10,9 @@ defmodule Midterm.Notifications.Notification do
     field :credits_spent, :integer
     field :notification_datails, :map
 
-    field :notification_type_id, NotificationType
-    field :account_watched_address_id, AccountWatchedAddress
-    field :block_id, Block
+    belongs_to :notification_type, NotificationType
+    belongs_to :account_watched_address, AccountWatchedAddress
+    belongs_to :block, Block
 
     timestamps()
   end
