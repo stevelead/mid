@@ -8,7 +8,15 @@ defmodule Midterm.AccountsTest do
 
     import Midterm.AccountsFixtures
 
-    @invalid_attrs %{address_hash: nil, alias: nil, credits: nil, email: nil, push_over_key: nil, sms: nil, status: nil}
+    @invalid_attrs %{
+      address_hash: nil,
+      alias: nil,
+      credits: nil,
+      email: nil,
+      push_over_key: nil,
+      sms: nil,
+      status: nil
+    }
 
     test "list_accounts/0 returns all accounts" do
       account = account_fixture()
@@ -21,7 +29,15 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_account/1 with valid data creates a account" do
-      valid_attrs = %{address_hash: "some address_hash", alias: "some alias", credits: 42, email: "some email", push_over_key: "some push_over_key", sms: "some sms", status: :active}
+      valid_attrs = %{
+        address_hash: "some address_hash",
+        alias: "some alias",
+        credits: 42,
+        email: "some email",
+        push_over_key: "some push_over_key",
+        sms: "some sms",
+        status: :active
+      }
 
       assert {:ok, %Account{} = account} = Accounts.create_account(valid_attrs)
       assert account.address_hash == "some address_hash"
@@ -39,7 +55,16 @@ defmodule Midterm.AccountsTest do
 
     test "update_account/2 with valid data updates the account" do
       account = account_fixture()
-      update_attrs = %{address_hash: "some updated address_hash", alias: "some updated alias", credits: 43, email: "some updated email", push_over_key: "some updated push_over_key", sms: "some updated sms", status: :paused}
+
+      update_attrs = %{
+        address_hash: "some updated address_hash",
+        alias: "some updated alias",
+        credits: 43,
+        email: "some updated email",
+        push_over_key: "some updated push_over_key",
+        sms: "some updated sms",
+        status: :paused
+      }
 
       assert {:ok, %Account{} = account} = Accounts.update_account(account, update_attrs)
       assert account.address_hash == "some updated address_hash"
@@ -89,7 +114,9 @@ defmodule Midterm.AccountsTest do
     test "create_watched_address/1 with valid data creates a watched_address" do
       valid_attrs = %{address_hash: "some address_hash"}
 
-      assert {:ok, %WatchedAddress{} = watched_address} = Accounts.create_watched_address(valid_attrs)
+      assert {:ok, %WatchedAddress{} = watched_address} =
+               Accounts.create_watched_address(valid_attrs)
+
       assert watched_address.address_hash == "some address_hash"
     end
 
@@ -101,20 +128,28 @@ defmodule Midterm.AccountsTest do
       watched_address = watched_address_fixture()
       update_attrs = %{address_hash: "some updated address_hash"}
 
-      assert {:ok, %WatchedAddress{} = watched_address} = Accounts.update_watched_address(watched_address, update_attrs)
+      assert {:ok, %WatchedAddress{} = watched_address} =
+               Accounts.update_watched_address(watched_address, update_attrs)
+
       assert watched_address.address_hash == "some updated address_hash"
     end
 
     test "update_watched_address/2 with invalid data returns error changeset" do
       watched_address = watched_address_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_watched_address(watched_address, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.update_watched_address(watched_address, @invalid_attrs)
+
       assert watched_address == Accounts.get_watched_address!(watched_address.id)
     end
 
     test "delete_watched_address/1 deletes the watched_address" do
       watched_address = watched_address_fixture()
       assert {:ok, %WatchedAddress{}} = Accounts.delete_watched_address(watched_address)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_watched_address!(watched_address.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_watched_address!(watched_address.id)
+      end
     end
 
     test "change_watched_address/1 returns a watched_address changeset" do
@@ -137,13 +172,16 @@ defmodule Midterm.AccountsTest do
 
     test "get_account_watched_address!/1 returns the account_watched_address with given id" do
       account_watched_address = account_watched_address_fixture()
-      assert Accounts.get_account_watched_address!(account_watched_address.id) == account_watched_address
+
+      assert Accounts.get_account_watched_address!(account_watched_address.id) ==
+               account_watched_address
     end
 
     test "create_account_watched_address/1 with valid data creates a account_watched_address" do
       valid_attrs = %{}
 
-      assert {:ok, %AccountWatchedAddress{} = account_watched_address} = Accounts.create_account_watched_address(valid_attrs)
+      assert {:ok, %AccountWatchedAddress{} = _account_watched_address} =
+               Accounts.create_account_watched_address(valid_attrs)
     end
 
     test "create_account_watched_address/1 with invalid data returns error changeset" do
@@ -154,19 +192,29 @@ defmodule Midterm.AccountsTest do
       account_watched_address = account_watched_address_fixture()
       update_attrs = %{}
 
-      assert {:ok, %AccountWatchedAddress{} = account_watched_address} = Accounts.update_account_watched_address(account_watched_address, update_attrs)
+      assert {:ok, %AccountWatchedAddress{} = _account_watched_address} =
+               Accounts.update_account_watched_address(account_watched_address, update_attrs)
     end
 
     test "update_account_watched_address/2 with invalid data returns error changeset" do
       account_watched_address = account_watched_address_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_account_watched_address(account_watched_address, @invalid_attrs)
-      assert account_watched_address == Accounts.get_account_watched_address!(account_watched_address.id)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.update_account_watched_address(account_watched_address, @invalid_attrs)
+
+      assert account_watched_address ==
+               Accounts.get_account_watched_address!(account_watched_address.id)
     end
 
     test "delete_account_watched_address/1 deletes the account_watched_address" do
       account_watched_address = account_watched_address_fixture()
-      assert {:ok, %AccountWatchedAddress{}} = Accounts.delete_account_watched_address(account_watched_address)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_account_watched_address!(account_watched_address.id) end
+
+      assert {:ok, %AccountWatchedAddress{}} =
+               Accounts.delete_account_watched_address(account_watched_address)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_account_watched_address!(account_watched_address.id)
+      end
     end
 
     test "change_account_watched_address/1 returns a account_watched_address changeset" do
@@ -189,13 +237,17 @@ defmodule Midterm.AccountsTest do
 
     test "get_notification_preference!/1 returns the notification_preference with given id" do
       notification_preference = notification_preference_fixture()
-      assert Accounts.get_notification_preference!(notification_preference.id) == notification_preference
+
+      assert Accounts.get_notification_preference!(notification_preference.id) ==
+               notification_preference
     end
 
     test "create_notification_preference/1 with valid data creates a notification_preference" do
       valid_attrs = %{devices_to_notify: [], limit_by_type: :received, values_greater_than: 42}
 
-      assert {:ok, %NotificationPreference{} = notification_preference} = Accounts.create_notification_preference(valid_attrs)
+      assert {:ok, %NotificationPreference{} = notification_preference} =
+               Accounts.create_notification_preference(valid_attrs)
+
       assert notification_preference.devices_to_notify == []
       assert notification_preference.limit_by_type == :received
       assert notification_preference.values_greater_than == 42
@@ -209,7 +261,9 @@ defmodule Midterm.AccountsTest do
       notification_preference = notification_preference_fixture()
       update_attrs = %{devices_to_notify: [], limit_by_type: :spent, values_greater_than: 43}
 
-      assert {:ok, %NotificationPreference{} = notification_preference} = Accounts.update_notification_preference(notification_preference, update_attrs)
+      assert {:ok, %NotificationPreference{} = notification_preference} =
+               Accounts.update_notification_preference(notification_preference, update_attrs)
+
       assert notification_preference.devices_to_notify == []
       assert notification_preference.limit_by_type == :spent
       assert notification_preference.values_greater_than == 43
@@ -217,14 +271,23 @@ defmodule Midterm.AccountsTest do
 
     test "update_notification_preference/2 with invalid data returns error changeset" do
       notification_preference = notification_preference_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_notification_preference(notification_preference, @invalid_attrs)
-      assert notification_preference == Accounts.get_notification_preference!(notification_preference.id)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.update_notification_preference(notification_preference, @invalid_attrs)
+
+      assert notification_preference ==
+               Accounts.get_notification_preference!(notification_preference.id)
     end
 
     test "delete_notification_preference/1 deletes the notification_preference" do
       notification_preference = notification_preference_fixture()
-      assert {:ok, %NotificationPreference{}} = Accounts.delete_notification_preference(notification_preference)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_notification_preference!(notification_preference.id) end
+
+      assert {:ok, %NotificationPreference{}} =
+               Accounts.delete_notification_preference(notification_preference)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_notification_preference!(notification_preference.id)
+      end
     end
 
     test "change_notification_preference/1 returns a notification_preference changeset" do
@@ -253,7 +316,9 @@ defmodule Midterm.AccountsTest do
     test "create_credit_purchase/1 with valid data creates a credit_purchase" do
       valid_attrs = %{credits_purchased: 42, purchase_cost: 42, purchase_currency: :ada}
 
-      assert {:ok, %CreditPurchase{} = credit_purchase} = Accounts.create_credit_purchase(valid_attrs)
+      assert {:ok, %CreditPurchase{} = credit_purchase} =
+               Accounts.create_credit_purchase(valid_attrs)
+
       assert credit_purchase.credits_purchased == 42
       assert credit_purchase.purchase_cost == 42
       assert credit_purchase.purchase_currency == :ada
@@ -267,7 +332,9 @@ defmodule Midterm.AccountsTest do
       credit_purchase = credit_purchase_fixture()
       update_attrs = %{credits_purchased: 43, purchase_cost: 43, purchase_currency: :ada}
 
-      assert {:ok, %CreditPurchase{} = credit_purchase} = Accounts.update_credit_purchase(credit_purchase, update_attrs)
+      assert {:ok, %CreditPurchase{} = credit_purchase} =
+               Accounts.update_credit_purchase(credit_purchase, update_attrs)
+
       assert credit_purchase.credits_purchased == 43
       assert credit_purchase.purchase_cost == 43
       assert credit_purchase.purchase_currency == :ada
@@ -275,14 +342,20 @@ defmodule Midterm.AccountsTest do
 
     test "update_credit_purchase/2 with invalid data returns error changeset" do
       credit_purchase = credit_purchase_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_credit_purchase(credit_purchase, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.update_credit_purchase(credit_purchase, @invalid_attrs)
+
       assert credit_purchase == Accounts.get_credit_purchase!(credit_purchase.id)
     end
 
     test "delete_credit_purchase/1 deletes the credit_purchase" do
       credit_purchase = credit_purchase_fixture()
       assert {:ok, %CreditPurchase{}} = Accounts.delete_credit_purchase(credit_purchase)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_credit_purchase!(credit_purchase.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_credit_purchase!(credit_purchase.id)
+      end
     end
 
     test "change_credit_purchase/1 returns a credit_purchase changeset" do
@@ -309,7 +382,11 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_api_access/1 with valid data creates a api_access" do
-      valid_attrs = %{api_code: "some api_code", status: :active, valid_until: ~U[2022-04-23 22:00:00Z]}
+      valid_attrs = %{
+        api_code: "some api_code",
+        status: :active,
+        valid_until: ~U[2022-04-23 22:00:00Z]
+      }
 
       assert {:ok, %ApiAccess{} = api_access} = Accounts.create_api_access(valid_attrs)
       assert api_access.api_code == "some api_code"
@@ -323,9 +400,16 @@ defmodule Midterm.AccountsTest do
 
     test "update_api_access/2 with valid data updates the api_access" do
       api_access = api_access_fixture()
-      update_attrs = %{api_code: "some updated api_code", status: :paused, valid_until: ~U[2022-04-24 22:00:00Z]}
 
-      assert {:ok, %ApiAccess{} = api_access} = Accounts.update_api_access(api_access, update_attrs)
+      update_attrs = %{
+        api_code: "some updated api_code",
+        status: :paused,
+        valid_until: ~U[2022-04-24 22:00:00Z]
+      }
+
+      assert {:ok, %ApiAccess{} = api_access} =
+               Accounts.update_api_access(api_access, update_attrs)
+
       assert api_access.api_code == "some updated api_code"
       assert api_access.status == :paused
       assert api_access.valid_until == ~U[2022-04-24 22:00:00Z]

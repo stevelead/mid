@@ -17,10 +17,13 @@ defmodule Midterm.Accounts.AccountWatchedAddress do
     timestamps()
   end
 
+  @required_parameters [:account_id, :watched_address_id]
+  @available_parameters @required_parameters
+
   @doc false
   def changeset(account_watched_address, attrs) do
     account_watched_address
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, @available_parameters)
+    |> validate_required(@required_parameters)
   end
 end
