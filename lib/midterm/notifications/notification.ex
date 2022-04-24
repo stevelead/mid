@@ -2,12 +2,17 @@ defmodule Midterm.Notifications.Notification do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Midterm.Notifications.NotificationType
+  alias Midterm.Accounts.AccountWatchedAddress
+  alias Midterm.DataFeed.Block
+
   schema "notifications" do
     field :credits_spent, :integer
     field :notification_datails, :map
-    field :notification_type_id, :id
-    field :account_watched_addresses_id, :id
-    field :block_id, :id
+
+    field :notification_type_id, NotificationType
+    field :account_watched_address_id, AccountWatchedAddress
+    field :block_id, Block
 
     timestamps()
   end

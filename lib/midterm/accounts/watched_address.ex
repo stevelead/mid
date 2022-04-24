@@ -2,8 +2,12 @@ defmodule Midterm.Accounts.WatchedAddress do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Midterm.Accounts.AccountWatchedAddress
+
   schema "watched_addresses" do
     field :address_hash, :string
+
+    has_many :account_watched_addresses, AccountWatchedAddress
 
     timestamps()
   end

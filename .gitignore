@@ -32,3 +32,5 @@ midterm-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# not required in git 
+/.elixir_ls/

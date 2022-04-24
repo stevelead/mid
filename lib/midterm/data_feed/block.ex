@@ -4,9 +4,10 @@ defmodule Midterm.DataFeed.Block do
 
   schema "blocks" do
     field :header_hash, :string
-    field :received_block_id, :integer
     field :rolled_back, :boolean, default: false
     field :slot, :integer
+
+    field :received_block_id, :integer
 
     timestamps()
   end

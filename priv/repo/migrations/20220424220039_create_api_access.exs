@@ -6,7 +6,7 @@ defmodule Midterm.Repo.Migrations.CreateApiAccess do
       add :api_code, :string
       add :status, :string
       add :valid_until, :utc_datetime
-      add :account_id, references(:accounts, on_delete: :nothing)
+      add :account_id, references(:accounts, on_delete: :delete_all)
 
       timestamps()
     end
