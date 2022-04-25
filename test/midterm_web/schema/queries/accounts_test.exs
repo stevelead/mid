@@ -1,4 +1,4 @@
-defmodule MidtermWeb.Schema.AccountsTest do
+defmodule MidtermWeb.Schema.Queries.AccountsTest do
   use MidtermWeb.ConnCase, async: true
 
   import Midterm.AccountsFixtures
@@ -7,7 +7,6 @@ defmodule MidtermWeb.Schema.AccountsTest do
   @account_by_address_hash_doc """
   query Account($address_hash: String!) {
     account(address_hash: $address_hash) {
-      id
       address_hash
       alias
       credits
@@ -38,7 +37,6 @@ defmodule MidtermWeb.Schema.AccountsTest do
                    "alias" => account.alias,
                    "credits" => account.credits,
                    "email" => account.email,
-                   "id" => account.id,
                    "push_over_key" => account.push_over_key,
                    "sms" => account.sms,
                    "status" => Atom.to_string(account.status)
@@ -65,9 +63,5 @@ defmodule MidtermWeb.Schema.AccountsTest do
       error_messages = errors |> Enum.map(&Map.get(&1, "message")) |> Enum.join()
       assert error_messages =~ "unauthorized"
     end
-  end
-
-  defp auth_account(conn, %{api_key: api_key}) do
-    put_req_header(conn, "authorization", "Bearer #{api_key}")
   end
 end

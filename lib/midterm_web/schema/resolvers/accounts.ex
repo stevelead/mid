@@ -11,4 +11,21 @@ defmodule MidtermWeb.Resolvers.Accounts do
         {:error, "unauthorized"}
     end
   end
+
+  def create_watched_address(_parent, %{account_address_hash: account_address_hash} = params, %{
+        context: context
+      }) do
+    case context do
+      %{current_api_access: %{account: account}}
+      when account.address_hash === account_address_hash ->
+        Accounts.create_watched_address(%{
+          account_id: account.id,
+          address_hash: params.watched_address_hash,
+          name: params.name
+        })
+
+      _ ->
+        {:error, "unauthorized"}
+    end
+  end
 end

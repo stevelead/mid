@@ -28,6 +28,10 @@ defmodule MidtermWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint MidtermWeb.Endpoint
+
+      defp auth_account(conn, %{api_key: api_key}) do
+        put_req_header(conn, "authorization", "Bearer #{api_key}")
+      end
     end
   end
 

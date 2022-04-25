@@ -6,6 +6,7 @@ defmodule Midterm.Accounts.WatchedAddress do
 
   schema "watched_addresses" do
     field :address_hash, :string
+    field :name, :string
 
     has_many :account_watched_addresses, AccountWatchedAddress
 
@@ -13,12 +14,16 @@ defmodule Midterm.Accounts.WatchedAddress do
   end
 
   @required_parameters [:address_hash]
+  @available_parameters [:name | @required_parameters]
 
   @doc false
   def changeset(watched_address, attrs) do
     watched_address
-    |> cast(attrs, @required_parameters)
+    |> cast(attrs, @available_parameters)
     |> validate_required(@required_parameters)
     |> unique_constraint(:address_hash)
   end
+
+  @doc false
+  def create_changeset(attrs), do: changeset(%__MODULE__{}, attrs)
 end

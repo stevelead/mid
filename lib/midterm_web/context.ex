@@ -5,6 +5,8 @@ defmodule MidtermWeb.Context do
   import Ecto.Query, only: [where: 2]
 
   alias Midterm.Repo
+  alias Midterm.Accounts
+  alias Midterm.Accounts.Account
   alias Midterm.Accounts.ApiAccess
 
   def init(opts), do: opts
@@ -21,9 +23,10 @@ defmodule MidtermWeb.Context do
     with ["Bearer " <> api_key] <- get_req_header(conn, "authorization"),
          {:ok, api_access} <-
            get_api_key_account_address_hash(api_key),
+         %Account{} = account <- Accounts.get_account!(api_access.account_id),
          :ok <- check_key_is_active(api_access),
          :ok <- check_key_is_current(api_access) do
-      %{current_api_access: api_access}
+      %{current_api_access: %{api_access | account: account}}
     else
       _ -> %{}
     end

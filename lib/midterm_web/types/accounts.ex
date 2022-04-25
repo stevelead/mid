@@ -31,6 +31,7 @@ defmodule MidtermWeb.Types.Accounts do
   @desc "A watched address"
   object :watched_address do
     field :address_hash, :string
+    field :name, :string
   end
 
   @desc "Notification preferences for an account's watched address"

@@ -8,9 +8,14 @@ defmodule MidtermWeb.Schema do
   import_types MidtermWeb.Types.Notifications
 
   import_types MidtermWeb.Queries.Accounts
+  import_types MidtermWeb.Mutations.Accounts
 
   query do
     import_fields :accounts_queries
+  end
+
+  mutation do
+    import_fields :accounts_mutations
   end
 
   def context(ctx) do
