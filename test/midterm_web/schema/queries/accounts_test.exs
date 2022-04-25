@@ -46,39 +46,24 @@ defmodule MidtermWeb.Schema.Queries.AccountsTest do
 
     test "does not fetch an account without valid api_key" do
       assert {api_access, account} = fetch_api_key_and_account()
-
-      conn = build_conn()
-
-      conn =
-        post conn, "/api",
-          query: @account_by_address_hash_doc,
-          variables: %{"address_hash" => account.address_hash}
-
-      assert %{
-               "errors" => errors
-             } = json_response(conn, 200)
-
-      error_messages = errors |> Enum.map(&Map.get(&1, "message")) |> Enum.join()
-      assert error_messages =~ "unauthorized"
-    end
-
-    test "does not fetch an account without incorrect api_key" do
-      assert {api_access, account} = fetch_api_key_and_account()
       incorrect_api_access = Map.put(api_access, :api_key, "incorrect_key")
 
-      conn = build_conn() |> auth_account(incorrect_api_access)
+      no_api_key_conn = build_conn()
+      incorrect_api_key_conn = build_conn() |> auth_account(incorrect_api_access)
 
-      conn =
-        post conn, "/api",
-          query: @account_by_address_hash_doc,
-          variables: %{"address_hash" => account.address_hash}
+      for conn <- [no_api_key_conn, incorrect_api_key_conn] do
+        conn =
+          post conn, "/api",
+            query: @account_by_address_hash_doc,
+            variables: %{"address_hash" => account.address_hash}
 
-      assert %{
-               "errors" => errors
-             } = json_response(conn, 200)
+        assert %{
+                 "errors" => errors
+               } = json_response(conn, 200)
 
-      error_messages = errors |> Enum.map(&Map.get(&1, "message")) |> Enum.join()
-      assert error_messages =~ "unauthorized"
+        error_messages = errors |> Enum.map(&Map.get(&1, "message")) |> Enum.join()
+        assert error_messages =~ "unauthorized"
+      end
     end
   end
 
