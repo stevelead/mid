@@ -20,6 +20,12 @@ defmodule MidtermWeb.Router do
     # forward "/", Absinthe.Plug, schema: Schema
   end
 
+  scope "/", MidtermWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
