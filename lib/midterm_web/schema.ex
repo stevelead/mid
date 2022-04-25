@@ -1,7 +1,11 @@
 defmodule MidtermWeb.Schema do
   use Absinthe.Schema
 
+  import_types MidtermWeb.Types.CustomJSON
+  import_types MidtermWeb.Types.CustomDatetime
   import_types MidtermWeb.Types.Accounts
+  import_types MidtermWeb.Types.DataFeed
+  import_types MidtermWeb.Types.Notifications
 
   import_types MidtermWeb.Queries.Accounts
 

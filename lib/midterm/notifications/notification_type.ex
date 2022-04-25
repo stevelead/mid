@@ -7,7 +7,7 @@ defmodule Midterm.Notifications.NotificationType do
   schema "notification_types" do
     field :type, :string
 
-    has_one :notification_type, Notification
+    has_one :notification, Notification
 
     timestamps()
   end
