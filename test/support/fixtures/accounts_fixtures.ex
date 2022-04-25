@@ -98,9 +98,9 @@ defmodule Midterm.AccountsFixtures do
   end
 
   @doc """
-  Generate a unique api_access api_code.
+  Generate a unique api_access api_key.
   """
-  def unique_api_access_api_code, do: "some api_code#{System.unique_integer([:positive])}"
+  def unique_api_access_api_key, do: "some api_key#{System.unique_integer([:positive])}"
 
   @doc """
   Generate a api_access.
@@ -111,7 +111,7 @@ defmodule Midterm.AccountsFixtures do
     {:ok, api_access} =
       attrs
       |> Enum.into(%{
-        api_code: unique_api_access_api_code(),
+        api_key: unique_api_access_api_key(),
         status: :active,
         valid_until: ~U[2022-04-23 22:00:00Z],
         account_id: account.id

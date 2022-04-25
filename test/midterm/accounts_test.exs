@@ -391,7 +391,7 @@ defmodule Midterm.AccountsTest do
 
     import Midterm.AccountsFixtures
 
-    @invalid_attrs %{api_code: nil, status: nil, valid_until: nil}
+    @invalid_attrs %{api_key: nil, status: nil, valid_until: nil}
 
     test "list_api_access/0 returns all api_access" do
       api_access = api_access_fixture()
@@ -407,14 +407,14 @@ defmodule Midterm.AccountsTest do
       account = account_fixture()
 
       valid_attrs = %{
-        api_code: "some api_code",
+        api_key: "some api_key",
         status: :active,
         valid_until: ~U[2022-04-23 22:00:00Z],
         account_id: account.id
       }
 
       assert {:ok, %ApiAccess{} = api_access} = Accounts.create_api_access(valid_attrs)
-      assert api_access.api_code == "some api_code"
+      assert api_access.api_key == "some api_key"
       assert api_access.status == :active
       assert api_access.valid_until == ~U[2022-04-23 22:00:00Z]
     end
@@ -427,7 +427,7 @@ defmodule Midterm.AccountsTest do
       api_access = api_access_fixture()
 
       update_attrs = %{
-        api_code: "some updated api_code",
+        api_key: "some updated api_key",
         status: :paused,
         valid_until: ~U[2022-04-24 22:00:00Z]
       }
@@ -435,7 +435,7 @@ defmodule Midterm.AccountsTest do
       assert {:ok, %ApiAccess{} = api_access} =
                Accounts.update_api_access(api_access, update_attrs)
 
-      assert api_access.api_code == "some updated api_code"
+      assert api_access.api_key == "some updated api_key"
       assert api_access.status == :paused
       assert api_access.valid_until == ~U[2022-04-24 22:00:00Z]
     end
