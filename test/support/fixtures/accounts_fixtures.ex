@@ -113,7 +113,7 @@ defmodule Midterm.AccountsFixtures do
       |> Enum.into(%{
         api_key: unique_api_access_api_key(),
         status: :active,
-        valid_until: ~U[2022-04-23 22:00:00Z],
+        valid_until: DateTime.add(DateTime.now!("Etc/UTC"), 2, :second),
         account_id: account.id
       })
       |> Midterm.Accounts.create_api_access()

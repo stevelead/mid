@@ -30,5 +30,6 @@ defmodule Midterm.Accounts.Account do
     account
     |> cast(attrs, @available_parameters)
     |> validate_required(@required_parameters)
+    |> cast_assoc(:api_access)
   end
 end

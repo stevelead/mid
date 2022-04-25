@@ -1,8 +1,8 @@
 defmodule MidtermWeb.Schema.AccountsTest do
-  use Midterm.DataCase, async: true
+  use MidtermWeb.ConnCase, async: true
 
   import Midterm.AccountsFixtures
-  alias MidtermWeb.Schema
+  alias Midterm.Accounts
 
   @account_by_address_hash_doc """
   query Account($address_hash: String!) {
@@ -20,23 +20,54 @@ defmodule MidtermWeb.Schema.AccountsTest do
   """
 
   describe "@account" do
-    test "fetches an account by address_hash" do
-      assert account = account_fixture()
+    test "fetches an account with valid api_key" do
+      assert api_access = api_access_fixture()
+      assert {:ok, account} = Accounts.get_account(%{api_access_id: api_access.id})
 
-      assert {:ok, %{data: data}} =
-               Absinthe.run(@account_by_address_hash_doc, Schema,
-                 variables: %{"address_hash" => account.address_hash}
-               )
+      conn = build_conn() |> auth_account(api_access)
 
-      account_res = data["account"]
-      assert account_res["id"] === account.id
-      assert account_res["address_hash"] === account.address_hash
-      assert account_res["alias"] === account.alias
-      assert account_res["credits"] === account.credits
-      assert account_res["email"] === account.email
-      assert account_res["push_over_key"] === account.push_over_key
-      assert account_res["sms"] === account.sms
-      assert account_res["status"] === Atom.to_string(account.status)
+      conn =
+        post conn, "/api",
+          query: @account_by_address_hash_doc,
+          variables: %{"address_hash" => account.address_hash}
+
+      assert json_response(conn, 200) == %{
+               "data" => %{
+                 "account" => %{
+                   "address_hash" => account.address_hash,
+                   "alias" => account.alias,
+                   "credits" => account.credits,
+                   "email" => account.email,
+                   "id" => account.id,
+                   "push_over_key" => account.push_over_key,
+                   "sms" => account.sms,
+                   "status" => Atom.to_string(account.status)
+                 }
+               }
+             }
     end
+
+    test "does not fetch an account without valid api_key" do
+      assert api_access = api_access_fixture()
+      assert {:ok, account} = Accounts.get_account(%{api_access_id: api_access.id})
+
+      conn = build_conn()
+
+      conn =
+        post conn, "/api",
+          query: @account_by_address_hash_doc,
+          variables: %{"address_hash" => account.address_hash}
+
+      assert %{
+               "errors" => errors
+             } = json_response(conn, 200)
+
+      error_messages = errors |> Enum.map(&Map.get(&1, "message")) |> Enum.join()
+      assert error_messages =~ "unauthorized"
+    end
+  end
+
+  defp auth_account(conn, %{api_key: api_key}) do
+    put_req_header(conn, "authorization", "Bearer #{api_key}")
   end
 end

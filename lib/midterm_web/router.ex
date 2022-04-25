@@ -12,6 +12,7 @@ defmodule MidtermWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug MidtermWeb.Context
   end
 
   scope "/api" do

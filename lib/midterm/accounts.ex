@@ -45,10 +45,10 @@ defmodule Midterm.Accounts do
 
   ## Examples
 
-      iex> get_account_by_address_hash(123)
+      iex> get_account_by_address_hash(%{address_hash: "1"})
       {:ok, %Account{}}
 
-      iex> get_account!(456)
+      iex> get_account_by_address_hash(%{address_hash: "1"})
       {:error,
       %{
         code: :not_found,
@@ -59,6 +59,28 @@ defmodule Midterm.Accounts do
   """
   def get_account_by_address_hash(address_hash),
     do: Actions.find(Account, %{address_hash: address_hash})
+
+  @doc """
+  Gets a single account by params passed
+
+  Returns an error tuple if the Account does not exist.
+
+  ## Examples
+
+      iex> get_account(%{id: 1})
+      {:ok, %Account{}}
+
+      iex> get_account(%{id: 1})
+      {:error,
+      %{
+        code: :not_found,
+        details: %{params: %{id: 1}, query: Midterm.Accounts.Account},
+        message: "no records found"
+      }}
+
+  """
+  def get_account(params),
+    do: Actions.find(Account, params)
 
   @doc """
   Creates a account.
