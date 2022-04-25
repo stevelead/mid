@@ -21,6 +21,6 @@ defmodule Midterm.Accounts.ApiAccess do
     api_access
     |> cast(attrs, @required_parameters)
     |> validate_required(@required_parameters)
-    |> unique_constraint(:api_key)
+    |> unique_constraint([:api_key, :account_id])
   end
 end

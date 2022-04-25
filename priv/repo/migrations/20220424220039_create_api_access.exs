@@ -11,7 +11,7 @@ defmodule Midterm.Repo.Migrations.CreateApiAccess do
       timestamps()
     end
 
-    create unique_index(:api_access, [:api_key])
+    create unique_index(:api_access, [:api_key, :account_id])
     create index(:api_access, [:account_id])
   end
 end

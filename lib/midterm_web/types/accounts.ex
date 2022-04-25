@@ -45,7 +45,7 @@ defmodule MidtermWeb.Types.Accounts do
 
   @desc "Api access details"
   object :api_access do
-    field :api_code, :string
+    field :api_key, :string
     field :status, :string
     field :valid_until, :datetime
 

@@ -12,5 +12,12 @@ defmodule MidtermWeb.Mutations.Accounts do
 
       resolve &Resolvers.Accounts.create_watched_address/3
     end
+
+    @desc "Resets an api key"
+    field :reset_api_key, :api_access do
+      arg :account_address_hash, non_null(:string)
+
+      resolve &Resolvers.Accounts.reset_api_key/3
+    end
   end
 end

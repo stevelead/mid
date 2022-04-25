@@ -645,6 +645,33 @@ defmodule Midterm.Accounts do
   end
 
   @doc """
+  Updates a api_key in an api_access with account_id.
+
+  ## Examples
+
+      iex> update_api_key("1")
+      {:ok, %ApiAccess{}}
+
+      iex> update_api_key("bad_account_id")
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_api_key(account_id) do
+    new_api_key = Ecto.UUID.generate()
+    attrs = %{account_id: account_id, api_key: new_api_key}
+
+    case Actions.find(ApiAccess, %{account_id: account_id}) do
+      {:ok, api_access} ->
+        api_access
+        |> ApiAccess.changeset(attrs)
+        |> Repo.update()
+
+      error ->
+        error
+    end
+  end
+
+  @doc """
   Deletes a api_access.
 
   ## Examples

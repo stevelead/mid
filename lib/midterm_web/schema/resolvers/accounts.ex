@@ -28,4 +28,17 @@ defmodule MidtermWeb.Resolvers.Accounts do
         {:error, "unauthorized"}
     end
   end
+
+  def reset_api_key(_parent, %{account_address_hash: account_address_hash}, %{
+        context: context
+      }) do
+    case context do
+      %{current_api_access: %{account: account}}
+      when account.address_hash === account_address_hash ->
+        Accounts.update_api_key(account.id)
+
+      _ ->
+        {:error, "unauthorized"}
+    end
+  end
 end
