@@ -20,7 +20,7 @@ defmodule MidtermWeb.Context do
   def build_context(conn) do
     with ["Bearer " <> api_key] <- get_req_header(conn, "authorization"),
          {:ok, api_access} <-
-           get_api_key_account_address_hash(api_key) |> IO.inspect(label: "api_access"),
+           get_api_key_account_address_hash(api_key),
          :ok <- check_key_is_active(api_access),
          :ok <- check_key_is_current(api_access) do
       %{current_api_access: api_access}
@@ -30,8 +30,6 @@ defmodule MidtermWeb.Context do
   end
 
   defp get_api_key_account_address_hash(api_key) do
-    IO.inspect(Repo.all(ApiAccess))
-
     ApiAccess
     |> where(api_key: ^api_key)
     |> Repo.one()
