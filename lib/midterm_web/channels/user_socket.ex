@@ -1,8 +1,8 @@
 defmodule MidtermWeb.UserSocket do
   use Phoenix.Socket
 
-  # use Absinthe.Phoenix.Socket,
-  #   schema: MidtermWeb.Schema
+  use Absinthe.Phoenix.Socket,
+    schema: MidtermWeb.Schema
 
   # A Socket handler
   #

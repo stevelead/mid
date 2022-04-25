@@ -7,6 +7,7 @@ defmodule Midterm.Accounts do
   alias Midterm.Repo
 
   alias Midterm.Accounts.Account
+  alias EctoShorts.Actions
 
   @doc """
   Returns the list of accounts.
@@ -36,6 +37,28 @@ defmodule Midterm.Accounts do
 
   """
   def get_account!(id), do: Repo.get!(Account, id)
+
+  @doc """
+  Gets a single account by the passed in address_hash.
+
+  Returns an error tuple if the Account does not exist.
+
+  ## Examples
+
+      iex> get_account_by_address_hash(123)
+      {:ok, %Account{}}
+
+      iex> get_account!(456)
+      {:error,
+      %{
+        code: :not_found,
+        details: %{params: %{address_hash: "1"}, query: Midterm.Accounts.Account},
+        message: "no records found"
+      }}
+
+  """
+  def get_account_by_address_hash(address_hash),
+    do: Actions.find(Account, %{address_hash: address_hash})
 
   @doc """
   Creates a account.
@@ -290,7 +313,10 @@ defmodule Midterm.Accounts do
       %Ecto.Changeset{data: %AccountWatchedAddress{}}
 
   """
-  def change_account_watched_address(%AccountWatchedAddress{} = account_watched_address, attrs \\ %{}) do
+  def change_account_watched_address(
+        %AccountWatchedAddress{} = account_watched_address,
+        attrs \\ %{}
+      ) do
     AccountWatchedAddress.changeset(account_watched_address, attrs)
   end
 
@@ -386,7 +412,10 @@ defmodule Midterm.Accounts do
       %Ecto.Changeset{data: %NotificationPreference{}}
 
   """
-  def change_notification_preference(%NotificationPreference{} = notification_preference, attrs \\ %{}) do
+  def change_notification_preference(
+        %NotificationPreference{} = notification_preference,
+        attrs \\ %{}
+      ) do
     NotificationPreference.changeset(notification_preference, attrs)
   end
 

@@ -14,10 +14,10 @@ defmodule MidtermWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", MidtermWeb do
+  scope "/api" do
     pipe_through :api
 
-    # forward "/", Absinthe.Plug, schema: Schema
+    forward "/", Absinthe.Plug, schema: MidtermWeb.Schema
   end
 
   scope "/", MidtermWeb do
@@ -54,9 +54,9 @@ defmodule MidtermWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
 
-    #   forward "/graphiql", Absinthe.Plug.GraphiQL,
-    #     interface: :playground,
-    #     schema: MidtermWeb.Schema,
-    #     socket: MidtermWeb.UserSocket
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      interface: :playground,
+      schema: MidtermWeb.Schema,
+      socket: MidtermWeb.UserSocket
   end
 end

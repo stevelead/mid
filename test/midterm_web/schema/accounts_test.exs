@@ -29,14 +29,14 @@ defmodule MidtermWeb.Schema.AccountsTest do
                )
 
       account_res = data["account"]
-      assert account_res["id"] === account.header_hash
+      assert account_res["id"] === account.id
       assert account_res["address_hash"] === account.address_hash
       assert account_res["alias"] === account.alias
       assert account_res["credits"] === account.credits
       assert account_res["email"] === account.email
       assert account_res["push_over_key"] === account.push_over_key
       assert account_res["sms"] === account.sms
-      assert account_res["status"] === account.status
+      assert account_res["status"] === Atom.to_string(account.status)
     end
   end
 end
