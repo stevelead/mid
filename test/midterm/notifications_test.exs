@@ -23,7 +23,9 @@ defmodule Midterm.NotificationsTest do
     test "create_notification_type/1 with valid data creates a notification_type" do
       valid_attrs = %{type: "some type"}
 
-      assert {:ok, %NotificationType{} = notification_type} = Notifications.create_notification_type(valid_attrs)
+      assert {:ok, %NotificationType{} = notification_type} =
+               Notifications.create_notification_type(valid_attrs)
+
       assert notification_type.type == "some type"
     end
 
@@ -35,20 +37,30 @@ defmodule Midterm.NotificationsTest do
       notification_type = notification_type_fixture()
       update_attrs = %{type: "some updated type"}
 
-      assert {:ok, %NotificationType{} = notification_type} = Notifications.update_notification_type(notification_type, update_attrs)
+      assert {:ok, %NotificationType{} = notification_type} =
+               Notifications.update_notification_type(notification_type, update_attrs)
+
       assert notification_type.type == "some updated type"
     end
 
     test "update_notification_type/2 with invalid data returns error changeset" do
       notification_type = notification_type_fixture()
-      assert {:error, %Ecto.Changeset{}} = Notifications.update_notification_type(notification_type, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Notifications.update_notification_type(notification_type, @invalid_attrs)
+
       assert notification_type == Notifications.get_notification_type!(notification_type.id)
     end
 
     test "delete_notification_type/1 deletes the notification_type" do
       notification_type = notification_type_fixture()
-      assert {:ok, %NotificationType{}} = Notifications.delete_notification_type(notification_type)
-      assert_raise Ecto.NoResultsError, fn -> Notifications.get_notification_type!(notification_type.id) end
+
+      assert {:ok, %NotificationType{}} =
+               Notifications.delete_notification_type(notification_type)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Notifications.get_notification_type!(notification_type.id)
+      end
     end
 
     test "change_notification_type/1 returns a notification_type changeset" do
@@ -61,6 +73,8 @@ defmodule Midterm.NotificationsTest do
     alias Midterm.Notifications.Notification
 
     import Midterm.NotificationsFixtures
+    import Midterm.AccountsFixtures
+    import Midterm.DataFeedFixtures
 
     @invalid_attrs %{credits_spent: nil, notification_datails: nil}
 
@@ -75,9 +89,21 @@ defmodule Midterm.NotificationsTest do
     end
 
     test "create_notification/1 with valid data creates a notification" do
-      valid_attrs = %{credits_spent: 42, notification_datails: %{}}
+      notification_type = notification_type_fixture()
+      account_watched_address = account_watched_address_fixture()
+      block = block_fixture()
 
-      assert {:ok, %Notification{} = notification} = Notifications.create_notification(valid_attrs)
+      valid_attrs = %{
+        credits_spent: 42,
+        notification_datails: %{},
+        notification_type_id: notification_type.id,
+        account_watched_address_id: account_watched_address.id,
+        block_id: block.id
+      }
+
+      assert {:ok, %Notification{} = notification} =
+               Notifications.create_notification(valid_attrs)
+
       assert notification.credits_spent == 42
       assert notification.notification_datails == %{}
     end
@@ -90,14 +116,19 @@ defmodule Midterm.NotificationsTest do
       notification = notification_fixture()
       update_attrs = %{credits_spent: 43, notification_datails: %{}}
 
-      assert {:ok, %Notification{} = notification} = Notifications.update_notification(notification, update_attrs)
+      assert {:ok, %Notification{} = notification} =
+               Notifications.update_notification(notification, update_attrs)
+
       assert notification.credits_spent == 43
       assert notification.notification_datails == %{}
     end
 
     test "update_notification/2 with invalid data returns error changeset" do
       notification = notification_fixture()
-      assert {:error, %Ecto.Changeset{}} = Notifications.update_notification(notification, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Notifications.update_notification(notification, @invalid_attrs)
+
       assert notification == Notifications.get_notification!(notification.id)
     end
 

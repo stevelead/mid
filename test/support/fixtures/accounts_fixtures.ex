@@ -63,12 +63,15 @@ defmodule Midterm.AccountsFixtures do
   Generate a notification_preference.
   """
   def notification_preference_fixture(attrs \\ %{}) do
+    account_watched_address = account_watched_address_fixture()
+
     {:ok, notification_preference} =
       attrs
       |> Enum.into(%{
         devices_to_notify: [],
         limit_by_type: :received,
-        values_greater_than: 42
+        values_greater_than: 42,
+        account_watched_address_id: account_watched_address.id
       })
       |> Midterm.Accounts.create_notification_preference()
 
@@ -79,12 +82,15 @@ defmodule Midterm.AccountsFixtures do
   Generate a credit_purchase.
   """
   def credit_purchase_fixture(attrs \\ %{}) do
+    account = account_fixture()
+
     {:ok, credit_purchase} =
       attrs
       |> Enum.into(%{
         credits_purchased: 42,
         purchase_cost: 42,
-        purchase_currency: :ada
+        purchase_currency: :ada,
+        account_id: account.id
       })
       |> Midterm.Accounts.create_credit_purchase()
 
@@ -100,12 +106,15 @@ defmodule Midterm.AccountsFixtures do
   Generate a api_access.
   """
   def api_access_fixture(attrs \\ %{}) do
+    account = account_fixture()
+
     {:ok, api_access} =
       attrs
       |> Enum.into(%{
         api_code: unique_api_access_api_code(),
         status: :active,
-        valid_until: ~U[2022-04-23 22:00:00Z]
+        valid_until: ~U[2022-04-23 22:00:00Z],
+        account_id: account.id
       })
       |> Midterm.Accounts.create_api_access()
 

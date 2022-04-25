@@ -231,7 +231,12 @@ defmodule Midterm.AccountsTest do
 
     import Midterm.AccountsFixtures
 
-    @invalid_attrs %{devices_to_notify: nil, limit_by_type: nil, values_greater_than: nil}
+    @invalid_attrs %{
+      devices_to_notify: nil,
+      limit_by_type: nil,
+      values_greater_than: nil,
+      account_watched_address_id: nil
+    }
 
     test "list_notification_preferences/0 returns all notification_preferences" do
       notification_preference = notification_preference_fixture()
@@ -246,7 +251,14 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_notification_preference/1 with valid data creates a notification_preference" do
-      valid_attrs = %{devices_to_notify: [], limit_by_type: :received, values_greater_than: 42}
+      account_watched_address = account_watched_address_fixture()
+
+      valid_attrs = %{
+        devices_to_notify: [],
+        limit_by_type: :received,
+        values_greater_than: 42,
+        account_watched_address_id: account_watched_address.id
+      }
 
       assert {:ok, %NotificationPreference{} = notification_preference} =
                Accounts.create_notification_preference(valid_attrs)
@@ -317,7 +329,14 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_credit_purchase/1 with valid data creates a credit_purchase" do
-      valid_attrs = %{credits_purchased: 42, purchase_cost: 42, purchase_currency: :ada}
+      account = account_fixture()
+
+      valid_attrs = %{
+        credits_purchased: 42,
+        purchase_cost: 42,
+        purchase_currency: :ada,
+        account_id: account.id
+      }
 
       assert {:ok, %CreditPurchase{} = credit_purchase} =
                Accounts.create_credit_purchase(valid_attrs)
@@ -385,10 +404,13 @@ defmodule Midterm.AccountsTest do
     end
 
     test "create_api_access/1 with valid data creates a api_access" do
+      account = account_fixture()
+
       valid_attrs = %{
         api_code: "some api_code",
         status: :active,
-        valid_until: ~U[2022-04-23 22:00:00Z]
+        valid_until: ~U[2022-04-23 22:00:00Z],
+        account_id: account.id
       }
 
       assert {:ok, %ApiAccess{} = api_access} = Accounts.create_api_access(valid_attrs)

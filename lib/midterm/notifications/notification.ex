@@ -22,7 +22,7 @@ defmodule Midterm.Notifications.Notification do
     :notification_datails,
     :notification_type_id,
     :account_watched_address_id,
-    :block
+    :block_id
   ]
 
   @doc false
