@@ -14,16 +14,11 @@ defmodule MidtermWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", MidtermWeb do
-    pipe_through :browser
+  scope "/api", MidtermWeb do
+    pipe_through :api
 
-    get "/", PageController, :index
+    # forward "/", Absinthe.Plug, schema: Schema
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", MidtermWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
@@ -52,5 +47,10 @@ defmodule MidtermWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+
+    #   forward "/graphiql", Absinthe.Plug.GraphiQL,
+    #     interface: :playground,
+    #     schema: MidtermWeb.Schema,
+    #     socket: MidtermWeb.UserSocket
   end
 end

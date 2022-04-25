@@ -15,9 +15,10 @@ defmodule Midterm.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Midterm.PubSub},
       # Start the Endpoint (http/https)
-      MidtermWeb.Endpoint
+      MidtermWeb.Endpoint,
       # Start a worker by calling: Midterm.Worker.start_link(arg)
       # {Midterm.Worker, arg}
+      {Absinthe.Subscription, MidtermWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
