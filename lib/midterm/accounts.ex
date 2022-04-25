@@ -197,6 +197,23 @@ defmodule Midterm.Accounts do
   end
 
   @doc """
+  Creates or finds a watched_address.
+
+  ## Examples
+
+      iex> find_or_create_watched_address(%{field: value})
+      {:ok, %AccountWatchedAddress{}}
+
+      iex> find_or_create_watched_address(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+
+  def find_or_create_watched_address(attrs \\ %{}) do
+    Actions.find_or_create(WatchedAddress, attrs)
+  end
+
+  @doc """
   Updates a watched_address.
 
   ## Examples
@@ -286,10 +303,33 @@ defmodule Midterm.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+
   def create_account_watched_address(attrs \\ %{}) do
     %AccountWatchedAddress{}
     |> AccountWatchedAddress.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates a watched_address and account_watched_address with the watched_address id.
+
+  ## Examples
+
+      iex> create_watched_address_and_account_watched_address(%{field: value})
+      {:ok, %AccountWatchedAddress{}}
+
+      iex> create_watched_address_and_account_watched_address(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+
+  def create_watched_address_and_account_watched_address(attrs) do
+    with {:ok, watched_address} <- find_or_create_watched_address(attrs),
+         attrs_with_watched_address_id = Map.put(attrs, :watched_address_id, watched_address.id),
+         {:ok, _account_watched_address} <-
+           create_account_watched_address(attrs_with_watched_address_id) do
+      {:ok, watched_address}
+    end
   end
 
   @doc """

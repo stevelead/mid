@@ -18,7 +18,7 @@ defmodule MidtermWeb.Resolvers.Accounts do
     case context do
       %{current_api_access: %{account: account}}
       when account.address_hash === account_address_hash ->
-        Accounts.create_watched_address(%{
+        Accounts.create_watched_address_and_account_watched_address(%{
           account_id: account.id,
           address_hash: params.watched_address_hash,
           name: params.name
