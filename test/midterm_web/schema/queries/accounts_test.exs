@@ -14,6 +14,9 @@ defmodule MidtermWeb.Schema.Queries.AccountsTest do
       push_over_key
       sms
       status
+      api_access {
+        api_key
+      }
     }
   }
   """
@@ -38,7 +41,10 @@ defmodule MidtermWeb.Schema.Queries.AccountsTest do
                    "email" => account.email,
                    "push_over_key" => account.push_over_key,
                    "sms" => account.sms,
-                   "status" => Atom.to_string(account.status)
+                   "status" => Atom.to_string(account.status),
+                   "api_access" => %{
+                     "api_key" => api_access.api_key
+                   }
                  }
                }
              }
