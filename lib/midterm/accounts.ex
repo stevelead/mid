@@ -414,6 +414,49 @@ defmodule Midterm.Accounts do
   def get_notification_preference!(id), do: Repo.get!(NotificationPreference, id)
 
   @doc """
+  Finds a single notification_preference by passed in params.
+
+  Raises `Ecto.NoResultsError` if the Notification preference does not exist.
+
+  ## Examples
+
+      iex> get_notification_preference!(123)
+      %NotificationPreference{}
+
+      iex> get_notification_preference!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def find_notification_preference(params), do: Actions.find(NotificationPreference, params)
+
+  @doc """
+  Finds a single notification_preference by passed in params.
+
+  Raises `Ecto.NoResultsError` if the Notification preference does not exist.
+
+  ## Examples
+
+      iex> get_notification_preference!(123)
+      %NotificationPreference{}
+
+      iex> get_notification_preference!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def find_notification_preference_by_account_id_and_watched_address_hash(
+        account_id,
+        watched_address_hash
+      ) do
+    with {:ok, watched_address} <-
+           Actions.find(WatchedAddress, address_hash: watched_address_hash) do
+      Actions.find(NotificationPreference, %{
+        account_id: account_id,
+        watched_address_id: watched_address.id
+      })
+    end
+  end
+
+  @doc """
   Creates a notification_preference.
 
   ## Examples

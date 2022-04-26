@@ -41,4 +41,33 @@ defmodule MidtermWeb.Resolvers.Accounts do
         {:error, "unauthorized"}
     end
   end
+
+  def update_notification_preferences(
+        _parent,
+        %{account_address_hash: account_address_hash} = params,
+        %{
+          context: context
+        }
+      ) do
+    case context do
+      %{current_api_access: %{account: account}}
+      when account.address_hash === account_address_hash ->
+        case Accounts.find_notification_preference_by_account_id_and_watched_address_hash(
+               account.id,
+               params.watched_address_hash
+             ) do
+          {:ok, notification_preference} ->
+            Accounts.update_notification_preference(
+              notification_preference,
+              params.notification_preferences
+            )
+
+          error ->
+            error
+        end
+
+      _ ->
+        {:error, "unauthorized"}
+    end
+  end
 end

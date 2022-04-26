@@ -19,7 +19,7 @@ defmodule MidtermWeb.Schema do
   end
 
   def context(ctx) do
-    source = Dataloader.Ecto.new(MidtermWeb.Repo)
+    source = Dataloader.Ecto.new(Midterm.Repo)
 
     dataloader =
       Dataloader.new()

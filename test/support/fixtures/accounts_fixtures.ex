@@ -48,7 +48,7 @@ defmodule Midterm.AccountsFixtures do
   Generate a account_watched_address.
   """
   def account_watched_address_fixture(attrs \\ %{}) do
-    account = account_fixture()
+    account = attrs[:account] || account_fixture()
     watched_address = watched_address_fixture()
 
     {:ok, account_watched_address} =
@@ -63,7 +63,7 @@ defmodule Midterm.AccountsFixtures do
   Generate a notification_preference.
   """
   def notification_preference_fixture(attrs \\ %{}) do
-    account_watched_address = account_watched_address_fixture()
+    account_watched_address = attrs[:account_watched_address] || account_watched_address_fixture()
 
     {:ok, notification_preference} =
       attrs

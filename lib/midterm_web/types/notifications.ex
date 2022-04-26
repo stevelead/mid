@@ -7,15 +7,18 @@ defmodule MidtermWeb.Types.Notifications do
     field :credits_spent, :integer
     field :notification_datails, :json
 
-    field :notification_type, :notification_type, do: resolve(dataloader(WmtRepo))
-    field :account_watched_address, :account_watched_address, do: resolve(dataloader(WmtRepo))
-    field :block, :block, do: resolve(dataloader(WmtRepo))
+    field :notification_type, :notification_type, do: resolve(dataloader(MidtermWebRepo))
+
+    field :account_watched_address, :account_watched_address,
+      do: resolve(dataloader(MidtermWebRepo))
+
+    field :block, :block, do: resolve(dataloader(MidtermWebRepo))
   end
 
   @desc "A notification type"
   object :notification_type do
     field :type, :string
 
-    field :notification, :notification, do: resolve(dataloader(WmtRepo))
+    field :notification, :notification, do: resolve(dataloader(MidtermWebRepo))
   end
 end
