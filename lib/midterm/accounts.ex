@@ -57,8 +57,8 @@ defmodule Midterm.Accounts do
       }}
 
   """
-  def get_account_by_address_hash(address_hash),
-    do: Actions.find(Account, %{address_hash: address_hash})
+  def get_account_by_params(params),
+    do: Actions.find(Account, params)
 
   @doc """
   Gets a single account by params passed
