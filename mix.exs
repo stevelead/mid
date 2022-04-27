@@ -54,7 +54,8 @@ defmodule Midterm.MixProject do
       {:absinthe_phoenix, "~> 2.0"},
       {:dataloader, "~> 1.0"},
       {:ecto_shorts, "~> 1.1.1"},
-      {:finch, "~> 0.10"}
+      {:finch, "~> 0.10"},
+      {:absinthe_websocket, "~> 0.2.0"}
     ]
   end
 
