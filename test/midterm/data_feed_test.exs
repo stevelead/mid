@@ -3,6 +3,28 @@ defmodule Midterm.DataFeedTest do
 
   alias Midterm.DataFeed
 
+  describe "data feed" do
+    alias Midterm.DataFeed
+
+    test "add_address/1 returns :ok tuple" do
+      assert {:ok, "123"} == DataFeed.add_address("123")
+    end
+
+    test "add_address/1 returns an error if not passed a string as address" do
+      assert {:error, message} = DataFeed.add_address(123)
+      assert message =~ "type"
+    end
+
+    test "remove_address/1 returns :ok tuple" do
+      assert {:ok, "123"} == DataFeed.remove_address("123")
+    end
+
+    test "remove_address/1 returns an error if not passed a string as address" do
+      assert {:error, message} = DataFeed.remove_address(123)
+      assert message =~ "type"
+    end
+  end
+
   describe "blocks" do
     alias Midterm.DataFeed.Block
 
@@ -21,7 +43,12 @@ defmodule Midterm.DataFeedTest do
     end
 
     test "create_block/1 with valid data creates a block" do
-      valid_attrs = %{header_hash: "some header_hash", received_block_id: 42, rolled_back: true, slot: 42}
+      valid_attrs = %{
+        header_hash: "some header_hash",
+        received_block_id: 42,
+        rolled_back: true,
+        slot: 42
+      }
 
       assert {:ok, %Block{} = block} = DataFeed.create_block(valid_attrs)
       assert block.header_hash == "some header_hash"
@@ -36,7 +63,13 @@ defmodule Midterm.DataFeedTest do
 
     test "update_block/2 with valid data updates the block" do
       block = block_fixture()
-      update_attrs = %{header_hash: "some updated header_hash", received_block_id: 43, rolled_back: false, slot: 43}
+
+      update_attrs = %{
+        header_hash: "some updated header_hash",
+        received_block_id: 43,
+        rolled_back: false,
+        slot: 43
+      }
 
       assert {:ok, %Block{} = block} = DataFeed.update_block(block, update_attrs)
       assert block.header_hash == "some updated header_hash"

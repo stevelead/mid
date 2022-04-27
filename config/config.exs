@@ -52,6 +52,11 @@ config :ecto_shorts,
   repo: Midterm.Repo,
   error_module: EctoShorts.Actions.Error
 
+# config for request client
+config :midterm,
+  http_request_client: Midterm.DataFeed.HttpRequest.Client,
+  http_request_client_url: System.get_env("REQUEST_URL")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

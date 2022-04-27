@@ -7,6 +7,43 @@ defmodule Midterm.DataFeed do
   alias Midterm.Repo
 
   alias Midterm.DataFeed.Block
+  alias Midterm.DataFeed.HttpRequest
+
+  @doc """
+  Midterm.DataFeed.HttpRequest.Behaviour implementations
+
+  Calls the client / mock depending on environment settings.
+
+    ## Examples
+
+      iex> add_address("123")
+      {ok, "123"}
+
+    ## Examples
+
+      iex> add_address(123)
+      {:error, "address must be a binary type"}
+  """
+
+  defdelegate add_address(address), to: HttpRequest
+
+  @doc """
+  Midterm.DataFeed.HttpRequest.Behaviour implementations
+
+  Calls the client / mock depending on environment settings.
+
+    ## Examples
+
+      iex> remove_address("123")
+      {ok, "123"}
+
+    ## Examples
+
+      iex> remove_address(123)
+      {:error, "address must be a binary type"}
+  """
+
+  defdelegate remove_address(address), to: HttpRequest
 
   @doc """
   Returns the list of blocks.

@@ -73,3 +73,8 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# config for request client
+config :midterm,
+  http_request_client: Midterm.DataFeed.HttpRequest.Client,
+  http_request_client_url: "https://one-fly-app.fly.dev/api/wmt-dev/"

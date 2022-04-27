@@ -18,7 +18,8 @@ defmodule Midterm.Application do
       MidtermWeb.Endpoint,
       # Start a worker by calling: Midterm.Worker.start_link(arg)
       # {Midterm.Worker, arg}
-      {Absinthe.Subscription, MidtermWeb.Endpoint}
+      {Absinthe.Subscription, MidtermWeb.Endpoint},
+      {Finch, name: MidtermFinch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
