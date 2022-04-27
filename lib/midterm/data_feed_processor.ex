@@ -18,14 +18,7 @@ defmodule Midterm.DataFeedProcessor do
 
   @impl Slipstream
   def init(config) do
-    {:ok, connect!(config), {:continue, :start_ping}}
-  end
-
-  @impl Slipstream
-  def handle_continue(:start_ping, socket) do
-    timer = :timer.send_interval(1000, self(), :request_metrics)
-
-    {:noreply, assign(socket, :ping_timer, timer)}
+    {:ok, connect!(config)}
   end
 
   @impl Slipstream
@@ -35,26 +28,15 @@ defmodule Midterm.DataFeedProcessor do
 
   @impl Slipstream
   def handle_join(@topic, _join_response, socket) do
-    # an asynchronous push with no reply:
-    push(socket, @topic, "hello", %{})
+    addresses = Midterm.Accounts.list_watched_addresses()
+    push(socket, @topic, "all_addresses", %{addresses: addresses})
 
     {:ok, socket}
   end
 
   @impl Slipstream
-  def handle_info(:request_metrics, socket) do
-    # we will asynchronously receive a reply and handle it in the
-    # handle_reply/3 implementation below
-    {:ok, ref} = push(socket, @topic, "get_metrics", %{format: "json"})
-
-    {:noreply, assign(socket, :metrics_request, ref)}
-  end
-
-  @impl Slipstream
-  def handle_reply(ref, metrics, socket) do
-    if ref == socket.assigns.metrics_request do
-      :ok = MyApp.MetricsPublisher.publish(metrics)
-    end
+  def handle_message(@topic, "new_block", %{"block" => block}, socket) do
+    IO.inspect(block, label: "initiate block processing from here")
 
     {:ok, socket}
   end
@@ -71,8 +53,7 @@ defmodule Midterm.DataFeedProcessor do
 
   @impl Slipstream
   def handle_disconnect(_reason, socket) do
-    :timer.cancel(socket.assigns.ping_timer)
-
+    # clean up any previously set :timers here
     {:stop, :normal, socket}
   end
 end
