@@ -10,6 +10,7 @@ defmodule Midterm.Accounts.AccountWatchedAddress do
   schema "account_watched_addresses" do
     belongs_to :account, Account
     belongs_to :watched_address, WatchedAddress
+    field :name, :string
 
     has_one :notification_preference, NotificationPreference
     has_many :notifications, Notification
@@ -18,11 +19,14 @@ defmodule Midterm.Accounts.AccountWatchedAddress do
   end
 
   @required_parameters [:account_id, :watched_address_id]
+  @available_parameters [:name | @required_parameters]
 
   @doc false
   def changeset(account_watched_address, attrs) do
     account_watched_address
-    |> cast(attrs, @required_parameters)
+    |> cast(attrs, @available_parameters)
     |> validate_required(@required_parameters)
+    |> unique_constraint([:account_id, :watched_address_id])
+    |> unique_constraint([:account_id, :name])
   end
 end

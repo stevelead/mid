@@ -8,7 +8,6 @@ defmodule MidtermWeb.Schema.Mutations.AccountsTest do
   mutation CreateWatchedAddress($account_address_hash: String!, $watched_address_hash: String!, $name: String) {
     createWatchedAddress(account_address_hash: $account_address_hash, watched_address_hash: $watched_address_hash, name: $name) {
       address_hash
-      name
     }
   }
   """
@@ -29,8 +28,7 @@ defmodule MidtermWeb.Schema.Mutations.AccountsTest do
       assert json_response(conn, 200) == %{
                "data" => %{
                  "createWatchedAddress" => %{
-                   "address_hash" => watched_address_variables["watched_address_hash"],
-                   "name" => watched_address_variables["name"]
+                   "address_hash" => watched_address_variables["watched_address_hash"]
                  }
                }
              }
@@ -131,6 +129,7 @@ defmodule MidtermWeb.Schema.Mutations.AccountsTest do
       limit_by_type
       values_greater_than
       account_watched_address {
+        name
         account {
           address_hash
         }
@@ -244,8 +243,7 @@ defmodule MidtermWeb.Schema.Mutations.AccountsTest do
   defp get_watched_address_variables(account) do
     %{
       "account_address_hash" => account.address_hash,
-      "watched_address_hash" => "address_hash_for_createWatchedAddress",
-      "name" => "name_for_createWatchedAddress"
+      "watched_address_hash" => "address_hash_for_createWatchedAddress"
     }
   end
 

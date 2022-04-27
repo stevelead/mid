@@ -4,7 +4,6 @@ defmodule Midterm.Repo.Migrations.CreateWatchedAddresses do
   def change do
     create table(:watched_addresses) do
       add :address_hash, :string
-      add :name, :string
 
       timestamps()
     end

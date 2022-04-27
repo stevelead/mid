@@ -23,6 +23,7 @@ defmodule MidtermWeb.Types.Accounts do
   object :account_watched_address do
     field :account, :account, do: resolve(dataloader(MidtermWebRepo))
     field :watched_address, :watched_address, do: resolve(dataloader(MidtermWebRepo))
+    field :name, :string
 
     field :notification_preference, :notification_preference,
       do: resolve(dataloader(MidtermWebRepo))
@@ -33,7 +34,6 @@ defmodule MidtermWeb.Types.Accounts do
   @desc "A watched address"
   object :watched_address do
     field :address_hash, :string
-    field :name, :string
   end
 
   @desc "Notification preferences for an account's watched address"

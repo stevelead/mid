@@ -21,7 +21,7 @@ defmodule MidtermWeb.Resolvers.Accounts do
         Accounts.create_watched_address_and_account_watched_address(%{
           account_id: account.id,
           address_hash: params.watched_address_hash,
-          name: params.name
+          name: params["name"] || nil
         })
 
       _ ->
