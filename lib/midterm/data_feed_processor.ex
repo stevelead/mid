@@ -57,11 +57,9 @@ defmodule Midterm.DataFeedProcessor do
 
   @impl Slipstream
   def handle_message(@topic, "new_block", %{"block" => block}, socket) do
-    Logger.info("received block with id #{block["id"]}...")
-
-    block
-    |> transform_string_keys()
-    |> BlockProcessor.process_block()
+    Logger.info("received block #{block["id"]}...")
+    BlockProcessor.process_block(block)
+    Logger.info("completed handling of block #{block["id"]}...")
 
     {:ok, socket}
   end
@@ -81,42 +79,4 @@ defmodule Midterm.DataFeedProcessor do
     # clean up any previously set :timers here
     {:stop, :normal, socket}
   end
-
-  def transform_string_keys(item) when is_map(item) do
-    for {key, value} <- item do
-      transform({key, value})
-    end
-    |> Enum.into(%{})
-  end
-
-  def transform_string_keys(item) when is_list(item) do
-    Enum.map(item, &transform_string_keys/1)
-  end
-
-  defp transform({"id", value}), do: {:id, value}
-  defp transform({"header_hash", value}), do: {:header_hash, value}
-  defp transform({"slot", value}), do: {:slot, value}
-
-  defp transform({"transaction_address_details", value}),
-    do: {:transaction_address_details, transform_string_keys(value)}
-
-  defp transform({"inputs_agg_assets", value}), do: {:inputs_agg_assets, value}
-  defp transform({"inputs_agg_value", value}), do: {:inputs_agg_value, value}
-  defp transform({"outputs_agg_assets", value}), do: {:outputs_agg_assets, value}
-  defp transform({"outputs_agg_value", value}), do: {:outputs_agg_value, value}
-  defp transform({"tx_utxo_balance", value}), do: {:tx_utxo_balance, value}
-
-  defp transform({"transaction_id", value}), do: {:transaction_id, value}
-  defp transform({"transaction", value}), do: {:transaction, transform_string_keys(value)}
-  defp transform({"tx_id", value}), do: {:tx_id, value}
-
-  defp transform({"address_id", value}), do: {:address_id, value}
-  defp transform({"address", value}), do: {:address, transform_string_keys(value)}
-  defp transform({"address_hash", value}), do: {:address_hash, value}
-
-  defp transform({key, value}),
-    do:
-      Logger.warn(
-        "#{__MODULE__} transform/1 received unexpected key value pair {#{key}, #{value}}"
-      )
 end

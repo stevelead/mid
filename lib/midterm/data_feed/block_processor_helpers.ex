@@ -36,13 +36,10 @@ defmodule Midterm.DataFeed.BlockProcessorHelpers do
   end
 
   defp passes_notification_preferences?(notification_preference, notification_details) do
-    get_preferences_to_check(notification_preference)
-    |> Enum.all?(&evaluate_preference(&1, notification_details))
-  end
-
-  defp get_preferences_to_check(notification_preference) do
     preferences_to_check = [:limit_by_type, :values_greater_than]
+
     Map.take(notification_preference, preferences_to_check)
+    |> Enum.all?(&evaluate_preference(&1, notification_details))
   end
 
   defp evaluate_preference({:limit_by_type, nil}, _), do: true

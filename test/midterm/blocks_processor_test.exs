@@ -1,5 +1,6 @@
 defmodule Midterm.BlocksProcessorTest do
   use Midterm.DataCase, async: true
+  import ExUnit.CaptureLog
 
   alias MidtermWeb.Endpoint
   import Midterm.AccountsFixtures
@@ -29,7 +30,7 @@ defmodule Midterm.BlocksProcessorTest do
 
       block = saved_block_fixture()
 
-      assert [:ok] == Midterm.DataFeed.BlockProcessor.process_block(block)
+      assert [:ok] == Midterm.DataFeed.BlockProcessor.dispatch_notifications(block)
 
       assert_received %Phoenix.Socket.Broadcast{
         event: event,
@@ -52,6 +53,18 @@ defmodule Midterm.BlocksProcessorTest do
                account_address: expected_account_watched_address,
                notification_details: expected_notification_details
              }
+    end
+
+    test "logs an error if process errors" do
+      incomplete_block = %{id: "1"}
+
+      log =
+        capture_log(fn ->
+          assert [:ok] != Midterm.DataFeed.BlockProcessor.process_block(incomplete_block)
+        end)
+
+      assert log =~ "error"
+      assert log =~ incomplete_block.id
     end
   end
 end
