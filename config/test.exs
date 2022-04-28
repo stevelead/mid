@@ -31,3 +31,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # config for request client
 config :midterm, :http_request_client, Midterm.DataFeed.HttpRequest.Mock
+
+# module to provide a mock for price fetching
+config :midterm,
+  fetch_price_impl: Midterm.PriceServer.FetchPricesMock,
+  binance_api_key: "not needed as mock provided"

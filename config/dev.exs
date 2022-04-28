@@ -78,3 +78,8 @@ config :phoenix, :plug_init_mode, :runtime
 config :midterm,
   http_request_client: Midterm.DataFeed.HttpRequest.Client,
   http_request_client_url: "https://one-fly-app.fly.dev/api/wmt-dev/"
+
+# module to provide a mock for price fetching
+config :midterm,
+  fetch_price_impl: Midterm.PriceServer.FetchPricesMock,
+  binance_api_key: "not needed as mock provided"

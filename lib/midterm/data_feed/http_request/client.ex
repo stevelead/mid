@@ -1,5 +1,6 @@
 defmodule Midterm.DataFeed.HttpRequest.Client do
   @behaviour Midterm.DataFeed.HttpRequest.Behaviour
+  require Logger
 
   alias Finch.Response
 
@@ -9,12 +10,15 @@ defmodule Midterm.DataFeed.HttpRequest.Client do
       {:ok, %Response{body: "ok"}} ->
         {:ok, address}
 
-      {:error, error} ->
-        IO.inspect(error, label: "add_address error")
+      {:error, _error} ->
+        Logger.warn("#{inspect(__MODULE__)} add_address error for address #{address}")
         {:error, "server error"}
 
-      res ->
-        IO.inspect(res, label: "unhandled add_address response")
+      _res ->
+        Logger.warn(
+          "#{inspect(__MODULE__)} unhandled add_address response for address #{address}"
+        )
+
         {:error, "server error"}
     end
   end
@@ -30,12 +34,12 @@ defmodule Midterm.DataFeed.HttpRequest.Client do
       {:ok, %Response{body: "ok"}} ->
         {:ok, address}
 
-      {:error, error} ->
-        IO.inspect(error, label: "remove_address error")
+      {:error, _error} ->
+        Logger.warn("#{inspect(__MODULE__)} remove_address error for address #{address}")
         {:error, "server error"}
 
-      res ->
-        IO.inspect(res, label: "unhandled remove_address response")
+      _res ->
+        "#{inspect(__MODULE__)} unhandled remove_address response for address #{address}"
         {:error, "server error"}
     end
   end

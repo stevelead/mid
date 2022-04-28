@@ -7,8 +7,8 @@ defmodule Midterm.DataFeed.BlockProcessor do
 
   def process_block(block) do
     with {:ok, atomised_block} <- transform_string_keys(block),
-         process_resposes <- dispatch_notifications(block),
-         :ok <- check_all_responses_ok(process_resposes),
+         process_responses <- dispatch_notifications(block),
+         :ok <- check_all_responses_ok(process_responses),
          {:ok, block} <- save_block_data(atomised_block) do
       {:ok, block}
     else
