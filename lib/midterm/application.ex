@@ -19,8 +19,7 @@ defmodule Midterm.Application do
       # Start a worker by calling: Midterm.Worker.start_link(arg)
       # {Midterm.Worker, arg}
       {Absinthe.Subscription, MidtermWeb.Endpoint},
-      {Finch, name: MidtermFinch},
-      {Midterm.DataFeedProcessor, uri: "wss://one-fly-app.fly.dev/socket/websocket"}
+      {Finch, name: MidtermFinch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

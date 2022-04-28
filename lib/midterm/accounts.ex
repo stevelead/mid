@@ -159,7 +159,8 @@ defmodule Midterm.Accounts do
 
   """
   def list_watched_addresses do
-    Repo.all(WatchedAddress)
+    WatchedAddress
+    |> Repo.all()
   end
 
   @doc """
@@ -177,6 +178,22 @@ defmodule Midterm.Accounts do
 
   """
   def get_watched_address!(id), do: Repo.get!(WatchedAddress, id)
+
+  @doc """
+  Gets a single watched_address based on params.
+
+  Raises `Ecto.NoResultsError` if the Watched address does not exist.
+
+  ## Examples
+
+      iex> get_watched_address!(%{address_hash: "123"})
+      %WatchedAddress{}
+
+      iex> get_watched_address!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_watched_address(params), do: Actions.find(WatchedAddress, params)
 
   @doc """
   Creates a watched_address.
@@ -273,6 +290,7 @@ defmodule Midterm.Accounts do
   """
   def list_account_watched_addresses do
     Repo.all(AccountWatchedAddress)
+    |> Repo.preload([:notification_preference, :account])
   end
 
   @doc """

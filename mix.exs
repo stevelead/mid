@@ -55,6 +55,7 @@ defmodule Midterm.MixProject do
       {:dataloader, "~> 1.0"},
       {:ecto_shorts, "~> 1.1.1"},
       {:finch, "~> 0.10"},
+      {:stream_data, "~> 0.5"},
       {:slipstream, "~> 0.8"}
     ]
   end

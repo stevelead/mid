@@ -13,7 +13,7 @@ defmodule Midterm.Accounts.Account do
     field :email, :string
     field :push_over_key, :string
     field :sms, :string
-    field :status, Ecto.Enum, values: [:active, :paused, :cancelled]
+    field :status, Ecto.Enum, values: [:active, :paused, :cancelled], default: :active
 
     has_many :account_watched_addresses, AccountWatchedAddress
     has_many :credit_purchases, CreditPurchase

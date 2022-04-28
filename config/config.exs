@@ -57,6 +57,11 @@ config :midterm,
   http_request_client: Midterm.DataFeed.HttpRequest.Client,
   http_request_client_url: System.get_env("REQUEST_URL")
 
+# config for slipstream
+config :midterm, Midterm.DataFeedProcessor,
+  uri: "wss://one-fly-app.fly.dev/socket/websocket",
+  reconnect_after_msec: [200, 500, 1_000, 2_000]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

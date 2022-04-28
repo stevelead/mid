@@ -5,9 +5,9 @@ defmodule Midterm.Accounts.NotificationPreference do
   alias Midterm.Accounts.AccountWatchedAddress
 
   schema "notification_preferences" do
-    field :devices_to_notify, {:array, :string}
-    field :limit_by_type, Ecto.Enum, values: [:received, :spent, :all]
-    field :values_greater_than, :integer
+    field :devices_to_notify, {:array, :string}, default: ["browser"]
+    field :limit_by_type, Ecto.Enum, values: [:received, :spent, :all], default: :all
+    field :values_greater_than, :integer, default: 0
 
     belongs_to :account_watched_address, AccountWatchedAddress
 

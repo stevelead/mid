@@ -49,7 +49,7 @@ defmodule Midterm.AccountsFixtures do
   """
   def account_watched_address_fixture(attrs \\ %{}) do
     account = attrs[:account] || account_fixture()
-    watched_address = watched_address_fixture()
+    watched_address = attrs[:watched_address] || watched_address_fixture()
 
     {:ok, account_watched_address} =
       attrs
@@ -68,9 +68,9 @@ defmodule Midterm.AccountsFixtures do
     {:ok, notification_preference} =
       attrs
       |> Enum.into(%{
-        devices_to_notify: [],
-        limit_by_type: :received,
-        values_greater_than: 42,
+        devices_to_notify: ["browser"],
+        limit_by_type: :all,
+        values_greater_than: 0,
         account_watched_address_id: account_watched_address.id
       })
       |> Midterm.Accounts.create_notification_preference()

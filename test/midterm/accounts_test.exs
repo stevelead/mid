@@ -1,5 +1,5 @@
 defmodule Midterm.AccountsTest do
-  use Midterm.DataCase
+  use Midterm.DataCase, async: true
 
   alias Midterm.Accounts
 
@@ -166,8 +166,19 @@ defmodule Midterm.AccountsTest do
     @invalid_attrs %{account_id: nil}
 
     test "list_account_watched_addresses/0 returns all account_watched_addresses" do
-      account_watched_address = account_watched_address_fixture()
-      assert Accounts.list_account_watched_addresses() == [account_watched_address]
+      account_watched_addresses =
+        Enum.map(0..5, fn _n -> account_watched_address_fixture() end)
+        |> Enum.map(&nillify_assocs(&1, [:account, :notification_preference]))
+
+      result =
+        Accounts.list_account_watched_addresses()
+        |> Enum.map(&nillify_assocs(&1, [:account, :notification_preference]))
+
+      assert result == account_watched_addresses
+    end
+
+    defp nillify_assocs(item, assocs_list) do
+      Map.drop(item, assocs_list)
     end
 
     test "get_account_watched_address!/1 returns the account_watched_address with given id" do

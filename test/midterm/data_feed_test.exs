@@ -1,5 +1,5 @@
 defmodule Midterm.DataFeedTest do
-  use Midterm.DataCase
+  use Midterm.DataCase, async: true
 
   alias Midterm.DataFeed
 
